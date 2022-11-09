@@ -23,5 +23,6 @@
 2. Use 2. Descriptive statistics.R to generate the descriptive statistics. (Refer to the study flow chart.)
 3. Use 3. Main estimtaion.R to replicate and plot main results.
 4. Use 4. Subgroup analysis.R to run subgroup analysis. 
+5. Use 5. Sensitivity analysis.R to run two sensitivity analyses. 
 
 If you encounter any errors/problems reproducing the results, please send Jung Hyun an email.
