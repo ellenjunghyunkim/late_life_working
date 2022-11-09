@@ -1,5 +1,6 @@
 # Description of this data
-The codes and data are for the paper Does (Re-)Entering the Labor Market at Advanced Ages Protect Against Cognitive Decline? A Panel-Matching Difference-in-Differences Approach, Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022).
+- The codes and data are for the paper Does (Re-)Entering the Labor Market at Advanced Ages Protect Against Cognitive Decline? A Panel-Matching Difference-in-Differences Approach, Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022).
+- Study flow folder contains a study/data flow chart for an intuitive undersatnding.
 
 ## Data
 - The data used in this study are publicly available on the Health and Retirement Study website (http://hrsonline.isr.umich.edu/).
@@ -18,11 +19,10 @@ The codes and data are for the paper Does (Re-)Entering the Labor Market at Adva
 3. Download inflation data (API_FP.CPI.TOTL.ZG_DS2_en_excel_v2_4692956.xls) and PPP data (API_PA.NUS.PPP_DS2_en_excel_v2_4684852.xls).
 
 ## Main Estimation code (in R)
-1. Use main estimation.R for the first descriptive statistics and main results.
-2. Use main plots.R to plot the main results and covariate balancing tests.
-3. Use Table 1 Figure A3.R to reproduce Table 1 and Figure A3.
-4. Use Table A2 A3.R to generate Table A2 and A3.
-5. Use Table A4.R to make Table A4.
-6. Use Table 3 Figure A6.R and Figure A7.R for the robustness check.
+1. Use 1. FInal data set.R to get the final analytical samples for KLoSA and HRS.
+2. Use 2. Descriptive statistics.R to generate the descriptive statistics. (Refer to the study flow chart.)
+3. Use 3. Main estimtaion.R to replicate and plot main results.
+4. Use 4. Subgroup analysis.R to run subgroup analysis. 
+5. Use 5. Sensitivity analysis.R for the robustness check.
 
 If you encounter any errors/problems reproducing the results, please send Jung Hyun an email.
