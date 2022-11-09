@@ -1,5 +1,5 @@
 # Description of this data
-The codes and data are for the paper Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja, Does (Re-)Entering the Labor Market at Advanced Ages Protect Against Cognitive Decline? A Panel-Matching Difference-in-Differences Approach.
+The codes and data are for the paper Does (Re-)Entering the Labor Market at Advanced Ages Protect Against Cognitive Decline? A Panel-Matching Difference-in-Differences Approach, Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022).
 
 ## Data
 - The data used in this study are publicly available on the Health and Retirement Study website (http://hrsonline.isr.umich.edu/).
@@ -9,17 +9,17 @@ The codes and data are for the paper Kim, Jung Hyun and Muniz-Terrera, Graciela 
 
 ## Software
 - STATA code is used to prepare the dataset and R code for the analysis.
-- STATA version 17.0, R version 4.1.2 PanelMatch package version 2.0.0 with the latest update (April 2022) are used.
+- STATA version 17.0, R version 4.2.1 PanelMatch package version 2.0.0 with the latest update (November 2022) are used.
 
 # Steps to reproduce
 ## Data code (in STATA)
 1. KLoSA.do, allows you to keep the variable of interests and merge them across waves.
 2. HRS.do subset the variables of interest. 
-3. Download korea_inflation.xlsx and united-states-inflation-rate-cpi.csv.
+3. Download inflation data (API_FP.CPI.TOTL.ZG_DS2_en_excel_v2_4692956.xls) and PPP data (API_PA.NUS.PPP_DS2_en_excel_v2_4684852.xls).
 
 ## Main Estimation code (in R)
-1. Use main estimation.R for the main estimation.
-2. Use main plots.R to reproduce Figure 2, 3, A1, A2, A5.
+1. Use main estimation.R for the first descriptive statistics and main results.
+2. Use main plots.R to plot the main results and covariate balancing tests.
 3. Use Table 1 Figure A3.R to reproduce Table 1 and Figure A3.
 4. Use Table A2 A3.R to generate Table A2 and A3.
 5. Use Table A4.R to make Table A4.
