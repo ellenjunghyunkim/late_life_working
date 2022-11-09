@@ -1,6 +1,4 @@
-# late_life_working
-
-Description of this data
+# Description of this data
 The codes and data are for the paper Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja, Does (Re-)Entering the Labor Market at Advanced Ages Protect Against Cognitive Decline? A Panel-Matching Difference-in-Differences Approach.
 
 Data
@@ -13,7 +11,7 @@ Software
 - STATA code is used to prepare the dataset and R code for the analysis.
 - STATA version 17.0, R version 4.1.2 PanelMatch package version 2.0.0 with the latest update (April 2022) are used.
 
-Steps to reproduce
+# Steps to reproduce
 Data code (in STATA)
 1. KLoSA.do, allows you to keep the variable of interests and merge them across waves.
 2. HRS.do subset the variables of interest. 
