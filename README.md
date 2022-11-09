@@ -14,8 +14,8 @@
 
 # Steps to reproduce
 ## Data code (in STATA)
-1. KLoSA.do, allows you to keep the variable of interests and merge them across waves.
-2. HRS.do subset the variables of interest. 
+1. KLoSA.do, allows you to keep the variable of interests and merge them across waves of KLoSA data.
+2. HRS.do and HRS.core2020.do subset the variables of interest of HRS data. 
 3. Download inflation data (API_FP.CPI.TOTL.ZG_DS2_en_excel_v2_4692956.xls) and PPP data (API_PA.NUS.PPP_DS2_en_excel_v2_4684852.xls).
 
 ## Main Estimation code (in R)
