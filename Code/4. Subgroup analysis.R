@@ -109,39 +109,11 @@ print(xtable(ATT_NotWorking_HRS_Asset_result$summary, digits=3))
 
 par(oma=c(4,4,0,0),mar=c(3,3,2,2),mfrow=c(2,2))
 
-plot.PanelEstimate(ATT_Working_HRS_Asset_Before$`1`,
-                   main = "Stay inactive vs  Entering the labor market - Low assets",
-                   ylab = "",
-                   xlab = "",
-                   xlim=c(0.7,2.3),
-                   ylim = c(-1, 1.2))
-axis(1, at = c(1, 2),
-     labels = c("t+0", "t+1"))
-
-plot.PanelEstimate(ATT_Working_HRS_Asset_Before$`2`,
-                   main = "Stay inactive vs  Entering the labor market - High assets",
-                   ylab = "",
-                   xlab = "",
-                   xlim=c(0.7,2.3),
-                   ylim = c(-1, 1.2))
-axis(1, at = c(1, 2),
-     labels = c("t+0", "t+1"))
-
-#Adjusted
-ATT_Working_HRS_Asset_result <- summary(ATT_Working_HRS_Asset)
-print(xtable(ATT_Working_HRS_Asset_result$summary, digits=3))
-
-ATT_NotWorking_HRS_Asset_Before_result <- summary(ATT_NotWorking_HRS_Asset_Before )
-print(xtable(ATT_NotWorking_HRS_Asset_Before_result$summary, digits=3))
-
-ATT_NotWorking_HRS_Asset_result <- summary(ATT_NotWorking_HRS_Asset)
-print(xtable(ATT_NotWorking_HRS_Asset_result$summary, digits=3))
-
 ####################################################################################################
 ## Education
 ####################################################################################################
 
-HRS$collegeormore <- ifelse( HRS$edu1 ==1 | HRS$edu2 ==1 | HRS$edu3 == 3, 1, 2)
+HRS$collegeormore <- ifelse( HRS$edu1 ==1 | HRS$edu2 ==1 | HRS$edu3 == 1, 1, 2)
 Working_HRS_Edu <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
                               treatment = "working", refinement.method = "CBPS.weight", 
                               data = HRS, 
