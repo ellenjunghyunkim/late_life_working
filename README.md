@@ -29,6 +29,6 @@ If you encounter any errors/problems reproducing the results, please send Jung H
 
 
 ### Updates 
-####Nov.11.2022, 
-Files: 3. Main estimtaion.R, 4. Subgroup analysis.R, 5. Sensitivity analysis.R 
-Categorical values to dummies with one-hot encoding, change in matching method from PS weight to CBPS weight.
+Nov.11.2022, 
+- Files: 3. Main estimtaion.R, 4. Subgroup analysis.R, 5. Sensitivity analysis.R 
+- Categorical values to dummies with one-hot encoding, change in matching method from PS weight to CBPS weight.
