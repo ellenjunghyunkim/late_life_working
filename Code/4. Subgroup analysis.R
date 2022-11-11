@@ -15,49 +15,154 @@ HRS <- HRS %>%
   mutate(asset = ntile(HRS$inflation_asset, 2))
 HRS$asset_moderator <- HRS$asset
 
-Working_HRS_Asset  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                                 treatment = "working", refinement.method = "ps.weight", 
+
+Working_HRS_Asset_Before  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
+                                 treatment = "working", refinement.method = "none", 
                                  data = HRS, 
-                                 covs.formula = ~ female + age + I(age^2) + agecohort + edu  + I(lag(health, 1:3))
-                                 + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
+                                 covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                 + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                 + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                 + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                                 + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                  + nonhispblack + other + hispanic + foreignbirth,
                                  size.match = 5, qoi = "att", outcome.var = "cogtot27",
                                  lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
                                  use.diagonal.variance.matrix = TRUE)
 
-NotWorking_HRS_Asset  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                                    treatment = "notworking", refinement.method = "ps.weight", 
+Working_HRS_Asset  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
+                                 treatment = "working", refinement.method = "CBPS.weight", 
+                                 data = HRS, 
+                                 covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                 + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                 + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                 + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                                 + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
+                                 + nonhispblack + other + hispanic + foreignbirth,
+                                 size.match = 5, qoi = "att", outcome.var = "cogtot27",
+                                 lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
+                                 use.diagonal.variance.matrix = TRUE)
+
+NotWorking_HRS_Asset_Before  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
+                                    treatment = "notworking", refinement.method = "none", 
                                     data = HRS, 
-                                    covs.formula = ~ female + age + I(age^2) + agecohort + edu + I(lag(health, 1:3))
-                                    + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
+                                    covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                    + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                    + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                    + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                                    + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                     + nonhispblack + other + hispanic + foreignbirth,
                                     size.match = 5, qoi = "att", outcome.var = "cogtot27",
                                     lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
                                     use.diagonal.variance.matrix = TRUE)
 
+NotWorking_HRS_Asset  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
+                                    treatment = "notworking", refinement.method = "CBPS.weight", 
+                                    data = HRS, 
+                                    covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                    + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                    + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                    + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                                    + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
+                                    + nonhispblack + other + hispanic + foreignbirth,
+                                    size.match = 5, qoi = "att", outcome.var = "cogtot27",
+                                    lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
+                                    use.diagonal.variance.matrix = TRUE)
+
+ATT_Working_HRS_Asset_Before <- PanelEstimate(sets = Working_HRS_Asset_Before, data = HRS, moderator = "asset_moderator")
+ATT_NotWorking_HRS_Asset_Before <- PanelEstimate(sets = NotWorking_HRS_Asset_Before, data = HRS, moderator = "asset_moderator")
+
 ATT_Working_HRS_Asset <- PanelEstimate(sets = Working_HRS_Asset, data = HRS, moderator = "asset_moderator")
 ATT_NotWorking_HRS_Asset <- PanelEstimate(sets = NotWorking_HRS_Asset, data = HRS, moderator = "asset_moderator")
+
+#HRS
+#Unadjusted
+
+###################Enter
+#High asset
+ATT_Working_HRS_Asset_Before_result <- summary(ATT_Working_HRS_Asset_Before$`2`)
+print(xtable(ATT_Working_HRS_Asset_Before_result$summary, digits=3))
+#Low asset
+ATT_Working_HRS_Asset_Before_result <- summary(ATT_Working_HRS_Asset_Before$`1`)
+print(xtable(ATT_Working_HRS_Asset_Before_result$summary, digits=3))
+#High asset
+ATT_Working_HRS_Asset_result <- summary(ATT_Working_HRS_Asset$`2`)
+print(xtable(ATT_Working_HRS_Asset_result$summary, digits=3))
+#Low asset
+ATT_Working_HRS_Asset_result <- summary(ATT_Working_HRS_Asset$`1`)
+print(xtable(ATT_Working_HRS_Asset_result$summary, digits=3))
+
+
+###################Exit
+#High asset
+ATT_NotWorking_HRS_Asset_Before_result <- summary(ATT_NotWorking_HRS_Asset_Before$`2`)
+print(xtable(ATT_NotWorking_HRS_Asset_Before_result$summary, digits=3))
+#Low asset
+ATT_NotWorking_HRS_Asset_Before_result <- summary(ATT_NotWorking_HRS_Asset_Before$`1`)
+print(xtable(ATT_NotWorking_HRS_Asset_Before_result$summary, digits=3))
+
+#High asset
+ATT_NotWorking_HRS_Asset_result <- summary(ATT_NotWorking_HRS_Asset$`2`)
+print(xtable(ATT_NotWorking_HRS_Asset_result$summary, digits=3))
+#Low asset
+ATT_NotWorking_HRS_Asset_result <- summary(ATT_NotWorking_HRS_Asset$`1`)
+print(xtable(ATT_NotWorking_HRS_Asset_result$summary, digits=3))
+
+par(oma=c(4,4,0,0),mar=c(3,3,2,2),mfrow=c(2,2))
+
+plot.PanelEstimate(ATT_Working_HRS_Asset_Before$`1`,
+                   main = "Stay inactive vs  Entering the labor market - Low assets",
+                   ylab = "",
+                   xlab = "",
+                   xlim=c(0.7,2.3),
+                   ylim = c(-1, 1.2))
+axis(1, at = c(1, 2),
+     labels = c("t+0", "t+1"))
+
+plot.PanelEstimate(ATT_Working_HRS_Asset_Before$`2`,
+                   main = "Stay inactive vs  Entering the labor market - High assets",
+                   ylab = "",
+                   xlab = "",
+                   xlim=c(0.7,2.3),
+                   ylim = c(-1, 1.2))
+axis(1, at = c(1, 2),
+     labels = c("t+0", "t+1"))
+
+#Adjusted
+ATT_Working_HRS_Asset_result <- summary(ATT_Working_HRS_Asset)
+print(xtable(ATT_Working_HRS_Asset_result$summary, digits=3))
+
+ATT_NotWorking_HRS_Asset_Before_result <- summary(ATT_NotWorking_HRS_Asset_Before )
+print(xtable(ATT_NotWorking_HRS_Asset_Before_result$summary, digits=3))
+
+ATT_NotWorking_HRS_Asset_result <- summary(ATT_NotWorking_HRS_Asset)
+print(xtable(ATT_NotWorking_HRS_Asset_result$summary, digits=3))
 
 ####################################################################################################
 ## Education
 ####################################################################################################
 
-HRS$collegeormore <- ifelse(HRS$edu <= 3, 1, 2)
+HRS$collegeormore <- ifelse( HRS$edu1 ==1 | HRS$edu2 ==1 | HRS$edu3 == 3, 1, 2)
 Working_HRS_Edu <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                              treatment = "working", refinement.method = "ps.weight", 
+                              treatment = "working", refinement.method = "CBPS.weight", 
                               data = HRS, 
-                              covs.formula = ~ female + age + I(age^2) + agecohort + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                              + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
+                              covs.formula = ~ female + age + I(age^2) + agecohort 
+                              + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                              + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                              + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                              + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                               + nonhispblack + other + hispanic + foreignbirth,
                               size.match = 5, qoi = "att", outcome.var = "cogtot27",
                               lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
                               use.diagonal.variance.matrix = TRUE)
 
 NotWorking_HRS_Edu <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                                 treatment = "notworking", refinement.method = "ps.weight", 
+                                 treatment = "notworking", refinement.method = "CBPS.weight", 
                                  data = HRS, 
-                                 covs.formula = ~ female + age + I(age^2) + agecohort + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                                 + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
+                                 covs.formula = ~ female + age + I(age^2) + agecohort 
+                                 + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                 + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                 + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                                 + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                  + nonhispblack + other + hispanic + foreignbirth,
                                  size.match = 5, qoi = "att", outcome.var = "cogtot27",
                                  lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
@@ -71,10 +176,13 @@ ATT_Working_HRS_Edu <- PanelEstimate(sets = Working_HRS_Edu, data = HRS, moderat
 ####################################################################################################
 
 Working_HRS_Gender <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                                 treatment = "working", refinement.method = "ps.weight", 
+                                 treatment = "working", refinement.method = "CBPS.weight", 
                                  data = HRS, 
-                                 covs.formula = ~ age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                                 + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
+                                 covs.formula = ~  age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                 + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                 + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                 + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                                 + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                  + nonhispblack + other + hispanic + foreignbirth,
                                  size.match = 5, qoi = "att", outcome.var = "cogtot27",
                                  lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
@@ -82,10 +190,13 @@ Working_HRS_Gender <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn",
 
 
 NotWorking_HRS_Gender  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                                     treatment = "notworking", refinement.method = "ps.weight", 
+                                     treatment = "notworking", refinement.method = "CBPS.weight", 
                                      data = HRS, 
-                                     covs.formula = ~ age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                                     + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
+                                     covs.formula = ~  age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                     + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                     + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                     + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                                     + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                      + nonhispblack + other + hispanic + foreignbirth,
                                      size.match = 5, qoi = "att", outcome.var = "cogtot27",
                                      lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
@@ -93,6 +204,7 @@ NotWorking_HRS_Gender  <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidp
 
 ATT_Working_HRS_Gender <- PanelEstimate(sets = Working_HRS_Gender, data = HRS, moderator = "ragender")
 ATT_NotWorking_HRS_Gender <- PanelEstimate(sets = NotWorking_HRS_Gender, data = HRS, moderator = "ragender")
+
 
 
 #########################################################################################################################################
