@@ -6,6 +6,33 @@
 ## last update: November, 2022
 ####################################################################################################
 library(PanelMatch)
+
+#Categorical variable to binary to use PanelMatch Package.
+library(glmnet)
+pick <- c("edu", "asset_quantile", "income_quantile","job.locfcategory", "health")
+
+KLoSA1 <- KLoSA[,!names(KLoSA) %in% pick]
+KLoSA2 <- as.data.frame(lapply(KLoSA[pick], as.factor))
+KLoSA3 <- cbind(KLoSA1, KLoSA2)
+
+one_hot <- KLoSA3[,pick] %>% 
+  makeX() %>%
+  data.frame()
+
+KLoSA <- cbind(KLoSA3, one_hot)
+KLoSA <- KLoSA[,!names(KLoSA) %in% pick]
+
+HRS1 <- HRS[,!names(HRS) %in% pick]
+HRS2 <- as.data.frame(lapply(HRS[pick], as.factor))
+HRS3 <- cbind(HRS1, HRS2)
+
+one_hot <- HRS3[,pick] %>% 
+  makeX() %>%
+  data.frame()
+
+HRS <- cbind(HRS3, one_hot)
+HRS <- HRS[,!names(HRS) %in% pick]
+
 ####################################################################################################
 ## Matching by employment history. KLoSA - Entry
 ####################################################################################################
@@ -22,10 +49,13 @@ ATT_Working_KL_Before <- PanelEstimate(sets = Working_KL_Before, data = KLoSA)
 
 #After covariate balancing
 Working_KL <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
-                         treatment = "working", refinement.method = "ps.weight", 
+                         treatment = "working", refinement.method = "CBPS.weight", 
                          data = KLoSA,
-                         covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3)) 
-                         + I(lag(job.locfcategory, 1:3)) + I(lag(spouse,1:3)) + I(lag(income_quantile,1:3)) + I(lag(mmse,1:3)),
+                         covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                         + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                         + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                         + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3)) 
+                         + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(mmse, 1:3)),
                          size.match = 5, qoi = "att", outcome.var = "mmse",
                          lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                          use.diagonal.variance.matrix = TRUE)
@@ -47,10 +77,13 @@ NotWorking_KL_Before<- PanelMatch(lag = 3, time.id = "wave", unit.id = "id",
 ATT_NotWorking_KL_Before <- PanelEstimate(sets = NotWorking_KL_Before, data = KLoSA)
 
 #After covariate balancing
-NotWorking_KL <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", treatment = "notworking", refinement.method = "ps.weight", 
+NotWorking_KL <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", treatment = "notworking", refinement.method = "CBPS.weight", 
                             data = KLoSA,
-                            covs.formula = ~ female + age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                            + I(lag(job.locfcategory, 1:3)) + I(lag(spouse,1:3)) + I(lag(income_quantile,1:3)) + I(lag(mmse,1:3)),
+                            covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                              + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                              + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                              + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3)) 
+                              + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(mmse, 1:3)),
                             size.match = 5, qoi = "att", outcome.var = "mmse",
                             lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                             use.diagonal.variance.matrix = TRUE)
@@ -73,11 +106,14 @@ ATT_Working_HRS_Before <- PanelEstimate(sets = Working_HRS_Before, data = HRS)
 
 #After covariate balancing
 Working_HRS <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                          treatment = "working", refinement.method = "ps.weight", 
+                          treatment = "working", refinement.method = "CBPS.weight", 
                           data = HRS, 
-                          covs.formula = ~ female + age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                          + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
-                          + nonhispblack + other + hispanic + foreignbirth,
+                          covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                            + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                            + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                            + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                            + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
+                            + nonhispblack + other + hispanic + foreignbirth,
                           size.match = 5, qoi = "att", outcome.var = "cogtot27",
                           lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                           use.diagonal.variance.matrix = TRUE)
@@ -100,10 +136,13 @@ ATT_NotWorking_HRS_Before <- PanelEstimate(sets = NotWorking_HRS_Before, data = 
 #After covariate balancing
 
 NotWorking_HRS <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                             treatment = "notworking", refinement.method = "ps.weight", 
+                             treatment = "notworking", refinement.method = "CBPS.weight", 
                              data = HRS, 
-                             covs.formula = ~ female + age + I(age^2) + agecohort+ edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                             + I(lag(job.locfcategory, 1:3))+ I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
+                             covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                             + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                             + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                             + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3))
+                             + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                              + nonhispblack + other + hispanic + foreignbirth,
                              size.match = 5, qoi = "att", outcome.var = "cogtot27",
                              lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
@@ -181,8 +220,6 @@ mtext(text="Cognitive Score",side=2,line=2,outer=TRUE)
 mtext(text="Left : K-MMSE, Right : HRS-TICS",side=2,line=1,outer=TRUE)
 mtext(text="Left : Korea, Right : US",side=1,line=1,outer=TRUE)
 
-
-
 ####################################################################################################
 ## Gathering numerical estimation results
 ####################################################################################################
@@ -224,21 +261,10 @@ print(xtable(ATT_NotWorking_HRS_result$summary, digits=3))
 
 par(oma=c(4,4,0,0),mar=c(3,3,2,2),mfrow=c(2,2))
 
-get_covariate_balance(Working_KL_Before$att,
-                      data = KLoSA,
-                      #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
-                      ylim = c(- 0.5, 0.5),
-                      ylab = "",
-                      xlab = "",
-                      main = "Before - Stay inactive vs  Entering the labor market",
-                      legend = FALSE,
-                      verbose = TRUE,
-                      plot = TRUE)
 get_covariate_balance(Working_KL$att,
                       data = KLoSA,
-                      #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      use.equal.weights = TRUE,
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       main = "After - Stay inactive vs  Entering the labor market",
                       ylab = "",
@@ -246,21 +272,32 @@ get_covariate_balance(Working_KL$att,
                       legend = FALSE,
                       verbose = TRUE,
                       plot = TRUE)
-get_covariate_balance(NotWorking_KL_Before$att,
+get_covariate_balance(Working_KL$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
+                      main = "After - Stay inactive vs  Entering the labor market",
                       ylab = "",
                       xlab = "",
-                      main = "Before - Stay active vs  Exiting the labor market",
+                      legend = FALSE,
+                      verbose = TRUE,
+                      plot = TRUE)
+get_covariate_balance(NotWorking_KL$att,
+                      data = KLoSA,
+                      use.equal.weights = TRUE,
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
+                      ylim = c(- 0.5, 0.5),
+                      main = "After - Stay active vs  Exiting the labor market",
+                      ylab = "",
+                      xlab = "",
                       legend = FALSE,
                       verbose = TRUE,
                       plot = TRUE)
 get_covariate_balance(NotWorking_KL$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       main = "After - Stay active vs  Exiting the labor market",
                       ylab = "",
@@ -279,10 +316,10 @@ mtext(text="(Cognitive Score in black line)",side=2,line=0,outer=TRUE)
 ####################################################################################################
 par(oma=c(4,4,0,0),mar=c(3,3,2,2),mfrow=c(2,2))
 
-get_covariate_balance(Working_HRS_Before$att,
+get_covariate_balance(Working_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female", "age"),
-                      #use.equal.weights = TRUE,
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female", "age"),
+                      use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
                       xlab = "",
@@ -292,7 +329,7 @@ get_covariate_balance(Working_HRS_Before$att,
 
 get_covariate_balance(Working_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female","age"),
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female","age"),
                       #use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
@@ -300,10 +337,10 @@ get_covariate_balance(Working_HRS$att,
                       main = "After - Stay inactive vs  Entering the labor market",
                       ylim = c(- 0.5, 0.5),
                       plot = TRUE)
-get_covariate_balance(NotWorking_HRS_Before$att,
+get_covariate_balance(NotWorking_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female", "age"),
-                      #use.equal.weights = TRUE,
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female","age"),
+                      use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
                       xlab = "",
@@ -312,7 +349,7 @@ get_covariate_balance(NotWorking_HRS_Before$att,
                       plot = TRUE)
 get_covariate_balance(NotWorking_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female", "age"),
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female","age"),
                       #use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
