@@ -16,6 +16,7 @@ library(PanelMatch)
 ####################################################################################################
 ## Different matching tools
 ####################################################################################################
+
 Working_KL_Before <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
                                 treatment = "working", refinement.method = "none", 
                                 data = KLoSA, 
@@ -26,42 +27,48 @@ Working_KL_Before <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id",
 
 Working_KL_mahalanobis <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
                                      treatment = "working", refinement.method = "mahalanobis", 
-                                     data = KLoSA,
-                                     covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3)) 
-                                     + I(lag(job.locfcategory, 1:3)) + I(lag(spouse,1:3)) + I(lag(income_quantile,1:3)) + I(lag(mmse,1:3)),
-                                     size.match = 5, qoi = "att", outcome.var = "mmse",
+                                     data = KLoSA, size.match = 5, qoi = "att", outcome.var = "mmse",
+                                     covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                     + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                     + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                     + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3)) 
+                                     + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(mmse, 1:3)),
                                      lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                                      use.diagonal.variance.matrix = TRUE)
 
 
 Working_KL_psmatch <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
                                  treatment = "working", refinement.method = "ps.match", 
-                                 data = KLoSA,
-                                 covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3)) 
-                                 + I(lag(job.locfcategory, 1:3)) + I(lag(spouse,1:3)) + I(lag(income_quantile,1:3)) + I(lag(mmse,1:3)),
-                                 size.match = 5, qoi = "att", outcome.var = "mmse",
+                                 data = KLoSA, size.match = 5, qoi = "att", outcome.var = "mmse",
+                                 covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                 + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                                 + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                                 + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3)) 
+                                 + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(mmse, 1:3)),
                                  lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE,listwise.delete = FALSE,
                                  use.diagonal.variance.matrix = TRUE)
 
-
-Working_KL_CBPS <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
-                              treatment = "working", refinement.method = "CBPS.weight", 
-                              data = KLoSA,
-                              covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3)) 
-                              + I(lag(job.locfcategory, 1:3)) + I(lag(spouse,1:3)) + I(lag(income_quantile,1:3)) + I(lag(mmse,1:3)),
-                              size.match = 5, qoi = "att", outcome.var = "mmse",
-                              lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
-                              use.diagonal.variance.matrix = TRUE)
-
-Working_KL <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
+Working_KL_psweight <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
                          treatment = "working", refinement.method = "ps.weight", 
-                         data = KLoSA,
-                         covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3)) 
-                         + I(lag(job.locfcategory, 1:3)) + I(lag(spouse,1:3)) + I(lag(income_quantile,1:3)) + I(lag(mmse,1:3)),
-                         size.match = 5, qoi = "att", outcome.var = "mmse",
+                         data = KLoSA, size.match = 5, qoi = "att", outcome.var = "mmse",
+                         covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                         + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                         + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                         + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3)) 
+                         + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(mmse, 1:3)),
                          lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                          use.diagonal.variance.matrix = TRUE)
 
+Working_KL_CBPS <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
+                              treatment = "working", refinement.method = "CBPS.weight", 
+                              data = KLoSA, size.match = 5, qoi = "att", outcome.var = "mmse",
+                              covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                              + I(lag(health2, 1:3))+ I(lag(health3, 1:3))+ I(lag(health4, 1:3))+ I(lag(health5, 1:3))
+                              + I(lag(job.locfcategory2, 1:3))+ I(lag(job.locfcategory3, 1:3))
+                              + I(lag(asset_quantile2, 1:3)) + I(lag(asset_quantile3, 1:3)) 
+                              + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(mmse, 1:3)),
+                              lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
+                              use.diagonal.variance.matrix = TRUE)
 
 ####################################################################################################
 ## Covariate balancing check
@@ -71,7 +78,7 @@ par(oma=c(4,4,0,0),mar=c(3,3,2,2),mfrow=c(1,5))
 get_covariate_balance(Working_KL_Before$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       ylab = "",
                       xlab = "",
@@ -82,7 +89,7 @@ get_covariate_balance(Working_KL_Before$att,
 get_covariate_balance(Working_KL_mahalanobis$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       main = "Mahalanobis Matching",
                       ylab = "",
@@ -93,7 +100,7 @@ get_covariate_balance(Working_KL_mahalanobis$att,
 get_covariate_balance(Working_KL_psmatch$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       ylab = "",
                       xlab = "",
@@ -101,23 +108,23 @@ get_covariate_balance(Working_KL_psmatch$att,
                       legend = FALSE,
                       verbose = TRUE,
                       plot = TRUE)
-get_covariate_balance(Working_KL_CBPS$att,
+get_covariate_balance(Working_KL_psweight$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
-                      main = "CBPS Weighting",
+                      main = "Propensity Score Weighting",
                       ylab = "",
                       xlab = "",
                       legend = FALSE,
                       verbose = TRUE,
                       plot = TRUE)
-get_covariate_balance(Working_KL$att,
+get_covariate_balance(Working_KL_CBPS$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
-                      main = "Propensity Score Weighting",
+                      main = "CBPS Weighting",
                       ylab = "",
                       xlab = "",
                       legend = FALSE,
@@ -126,54 +133,6 @@ get_covariate_balance(Working_KL$att,
 mtext(text="Waves prior to the entering the labor market in Korea",side=1,line=0,outer=TRUE)
 mtext(text="Standardized Mean Differences of Covariates",side=2,line=1,outer=TRUE)
 mtext(text="(Cognitive Score in black line)",side=2,line=0,outer=TRUE)
-
-
-####################################################################################################
-## CBPS.weighting
-####################################################################################################
-
-ATT_Working_KL_CBPS <- PanelEstimate(sets = Working_KL_CBPS, data = KLoSA)
-NotWorking_KL_CBPS <- PanelMatch(lag = 3, time.id = "wave", unit.id = "id", 
-                                 treatment = "notworking", refinement.method = "CBPS.weight", 
-                                 data = KLoSA,
-                                 covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3)) 
-                                 + I(lag(job.locfcategory, 1:3)) + I(lag(spouse,1:3)) + I(lag(income_quantile,1:3)) + I(lag(mmse,1:3)),
-                                 size.match = 5, qoi = "att", outcome.var = "mmse",
-                                 lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = TRUE, listwise.delete = FALSE,
-                                 use.diagonal.variance.matrix = TRUE)
-
-ATT_NotWorking_KL_CBPS <- PanelEstimate(sets = NotWorking_KL_CBPS, data = KLoSA)
-
-
-Working_HRS_CBPS <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                               treatment = "working", refinement.method = "CBPS.weight", 
-                               data = HRS, 
-                               covs.formula = ~ female + age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                               + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
-                               + nonhispblack + other + hispanic + foreignbirth,
-                               size.match = 5, qoi = "att", outcome.var = "cogtot27",
-                               lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
-                               use.diagonal.variance.matrix = TRUE)
-
-ATT_Working_HRS_CBPS <- PanelEstimate(sets = Working_HRS_CBPS, data = HRS)
-
-NotWorking_HRS_CBPS <- PanelMatch(lag = 3, time.id = "wave", unit.id = "hhidpn", 
-                                  treatment = "notworking", refinement.method = "CBPS.weight", 
-                                  data = HRS, 
-                                  covs.formula = ~ female + age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:3)) + I(lag(health, 1:3))
-                                  + I(lag(job.locfcategory, 1:3))  + I(lag(income_quantile, 1:3)) + I(lag(cogtot27, 1:3)) 
-                                  + nonhispblack + other + hispanic + foreignbirth,
-                                  size.match = 5, qoi = "att", outcome.var = "cogtot27",
-                                  lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
-                                  use.diagonal.variance.matrix = TRUE)
-ATT_NotWorking_HRS_CBPS <- PanelEstimate(sets = NotWorking_HRS_CBPS, data = HRS)
-
-summary(ATT_Working_KL_CBPS)
-summary(ATT_NotWorking_KL_CBPS)
-summary(ATT_Working_HRS_CBPS)
-summary(ATT_NotWorking_HRS_CBPS)
-
-
 
 ####################################################################################################
 ## Sensitivity analysis 2 : shorter length 
@@ -564,29 +523,64 @@ HRS$hispanic <- ifelse(HRS$rahispan == 1, 1, 0)
 HRS$wave <- as.integer(HRS$wave)
 HRS$hhidpn <- as.integer(HRS$hhidpn)
 HRS <- data.frame(HRS)
+####################################################################################################
+## Categorical variable to binary to use PanelMatch Package.
+####################################################################################################
+library(PanelMatch)
+library(glmnet)
+pick <- c("edu", "asset_quantile", "income_quantile","job.locfcategory", "health")
+
+KLoSA1 <- KLoSA[,!names(KLoSA) %in% pick]
+KLoSA2 <- as.data.frame(lapply(KLoSA[pick], as.factor))
+KLoSA3 <- cbind(KLoSA1, KLoSA2)
+
+one_hot <- KLoSA3[,pick] %>% 
+  makeX() %>%
+  data.frame()
+
+KLoSA <- cbind(KLoSA3, one_hot)
+KLoSA <- KLoSA[,!names(KLoSA) %in% pick]
+
+HRS1 <- HRS[,!names(HRS) %in% pick]
+HRS2 <- as.data.frame(lapply(HRS[pick], as.factor))
+HRS3 <- cbind(HRS1, HRS2)
+
+one_hot <- HRS3[,pick] %>% 
+  makeX() %>%
+  data.frame()
+
+HRS <- cbind(HRS3, one_hot)
+HRS <- HRS[,!names(HRS) %in% pick]
 
 ####################################################################################################
-## Panel-matching estimation with KLoSA 
+## 2 lags Panel-matching estimation with KLoSA
 ####################################################################################################
 library(PanelMatch)
 
 KLoSA$wave <- as.integer(KLoSA$wave)
 KLoSA <- data.frame(KLoSA)
+
 Working_KL <- PanelMatch(lag = 2, time.id = "wave", unit.id = "id", 
-                         treatment = "working", refinement.method = "ps.weight", 
+                         treatment = "working", refinement.method = "CBPS.weight", 
                          data = KLoSA,
-                         covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:2)) + I(lag(health, 1:2)) 
-                         + I(lag(job.locfcategory, 1:2)) + I(lag(spouse,1:2)) + I(lag(income_quantile,1:2)) + I(lag(mmse,1:2)),
+                         covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                         + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
+                         + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
+                         + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:2)) 
+                         + I(lag(income_quantile2, 1:2))+ I(lag(income_quantile3, 1:2)) + I(lag(mmse, 1:2)),
                          size.match = 5, qoi = "att", outcome.var = "mmse",
                          lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                          use.diagonal.variance.matrix = TRUE)
+
 ATT_Working_KL <- PanelEstimate(sets = Working_KL, data = KLoSA)
 
-NotWorking_KL <- PanelMatch(lag = 2, time.id = "wave", unit.id = "id", 
-                            treatment = "notworking", refinement.method = "ps.weight", 
+NotWorking_KL <- PanelMatch(lag = 2, time.id = "wave", unit.id = "id", treatment = "notworking", refinement.method = "CBPS.weight", 
                             data = KLoSA,
-                            covs.formula = ~ female + age + I(age^2) +  edu + I(lag(asset_quantile, 1:2)) + I(lag(health, 1:2)) 
-                            + I(lag(job.locfcategory, 1:2)) + I(lag(spouse,1:2)) + I(lag(income_quantile,1:2)) + I(lag(mmse,1:2)),
+                            covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                            + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
+                            + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
+                            + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:2)) 
+                            + I(lag(income_quantile2, 1:2))+ I(lag(income_quantile3, 1:2)) + I(lag(mmse, 1:2)),
                             size.match = 5, qoi = "att", outcome.var = "mmse",
                             lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                             use.diagonal.variance.matrix = TRUE)
@@ -594,14 +588,18 @@ NotWorking_KL <- PanelMatch(lag = 2, time.id = "wave", unit.id = "id",
 ATT_NotWorking_KL <- PanelEstimate(sets = NotWorking_KL, data = KLoSA)
 
 
+
 ####################################################################################################
-## Panel match with HRS
+## 2 lags Panel match with HRS
 ####################################################################################################
 Working_HRS <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn", 
-                          treatment = "working", refinement.method = "ps.weight", 
+                          treatment = "working", refinement.method = "CBPS.weight", 
                           data = HRS, 
-                          covs.formula = ~ female + age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:2)) + I(lag(health, 1:2))
-                          + I(lag(job.locfcategory, 1:2))  + I(lag(income_quantile, 1:2)) + I(lag(cogtot27, 1:2)) 
+                          covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                          + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
+                          + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
+                          + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:2))
+                          + I(lag(income_quantile2, 1:2))+ I(lag(income_quantile3, 1:2)) + I(lag(cogtot27, 1:2))
                           + nonhispblack + other + hispanic + foreignbirth,
                           size.match = 5, qoi = "att", outcome.var = "cogtot27",
                           lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
@@ -610,10 +608,13 @@ Working_HRS <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn",
 ATT_Working_HRS <- PanelEstimate(sets = Working_HRS, data = HRS)
 
 NotWorking_HRS <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn", 
-                             treatment = "notworking", refinement.method = "ps.weight", 
+                             treatment = "notworking", refinement.method = "CBPS.weight", 
                              data = HRS, 
-                             covs.formula = ~ female + age + I(age^2) + agecohort + edu + I(lag(asset_quantile, 1:2)) + I(lag(health, 1:2))
-                             + I(lag(job.locfcategory, 1:2))  + I(lag(income_quantile, 1:2)) + I(lag(cogtot27, 1:2)) 
+                             covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                             + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
+                             + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
+                             + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:3))
+                             + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                              + nonhispblack + other + hispanic + foreignbirth,
                              size.match = 5, qoi = "att", outcome.var = "cogtot27",
                              lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
@@ -629,7 +630,7 @@ par(oma=c(4,4,0,0),mar=c(3,3,2,2),mfrow=c(2,2))
 get_covariate_balance(Working_KL$att,
                       data = KLoSA,
                       use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       ylab = "",
                       xlab = "",
@@ -640,7 +641,7 @@ get_covariate_balance(Working_KL$att,
 get_covariate_balance(Working_KL$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       main = "After - Stay inactive vs  Entering the labor market",
                       ylab = "",
@@ -651,7 +652,7 @@ get_covariate_balance(Working_KL$att,
 get_covariate_balance(NotWorking_KL$att,
                       data = KLoSA,
                       use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       ylab = "",
                       xlab = "",
@@ -662,7 +663,7 @@ get_covariate_balance(NotWorking_KL$att,
 get_covariate_balance(NotWorking_KL$att,
                       data = KLoSA,
                       #use.equal.weights = TRUE,
-                      covariates = c("mmse", "health", "edu", "asset_quantile", "female", "age"),
+                      covariates = c("mmse", "health1", "edu1", "asset_quantile1", "female", "age"),
                       ylim = c(- 0.5, 0.5),
                       main = "After - Stay active vs  Exiting the labor market",
                       ylab = "",
@@ -682,7 +683,7 @@ par(oma=c(4,4,0,0),mar=c(3,3,2,2),mfrow=c(2,2))
 
 get_covariate_balance(Working_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female", "age"),
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female","age"),
                       use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
@@ -693,7 +694,7 @@ get_covariate_balance(Working_HRS$att,
 
 get_covariate_balance(Working_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female","age"),
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female","age"),
                       #use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
@@ -703,7 +704,7 @@ get_covariate_balance(Working_HRS$att,
                       plot = TRUE)
 get_covariate_balance(NotWorking_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female", "age"),
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female","age"),
                       use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
@@ -713,7 +714,7 @@ get_covariate_balance(NotWorking_HRS$att,
                       plot = TRUE)
 get_covariate_balance(NotWorking_HRS$att,
                       data = HRS,
-                      covariates = c("cogtot27","health","edu", "asset_quantile", "female", "age"),
+                      covariates = c("cogtot27","health1","edu1", "asset_quantile1", "female","age"),
                       #use.equal.weights = TRUE,
                       legend = FALSE,
                       ylab = "",
@@ -806,20 +807,26 @@ HRS <- HRS %>%
 HRS$asset_moderator <- HRS$asset
 
 Working_HRS_Asset  <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn", 
-                                 treatment = "working", refinement.method = "ps.weight", 
+                                 treatment = "working", refinement.method = "CBPS.weight", 
                                  data = HRS, 
-                                 covs.formula = ~ female + age + I(age^2) + agecohort + edu  + I(lag(health, 1:2))
-                                 + I(lag(job.locfcategory, 1:2))  + I(lag(income_quantile, 1:2)) + I(lag(cogtot27, 1:2)) 
+                                 covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                 + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
+                                 + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
+                                 + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:3))
+                                 + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                  + nonhispblack + other + hispanic + foreignbirth,
                                  size.match = 5, qoi = "att", outcome.var = "cogtot27",
                                  lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
                                  use.diagonal.variance.matrix = TRUE)
 
 NotWorking_HRS_Asset  <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn", 
-                                    treatment = "notworking", refinement.method = "ps.weight", 
+                                    treatment = "notworking", refinement.method = "CBPS.weight", 
                                     data = HRS, 
-                                    covs.formula = ~ female + age + I(age^2) + agecohort + edu  + I(lag(health, 1:2))
-                                    + I(lag(job.locfcategory, 1:2))  + I(lag(income_quantile, 1:2)) + I(lag(cogtot27, 1:2)) 
+                                    covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
+                                    + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
+                                    + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
+                                    + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:3))
+                                    + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                     + nonhispblack + other + hispanic + foreignbirth,
                                     size.match = 5, qoi = "att", outcome.var = "cogtot27",
                                     lead = 0:1, forbid.treatment.reversal = FALSE, match.missing = FALSE, listwise.delete = FALSE,
