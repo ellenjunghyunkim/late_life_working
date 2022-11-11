@@ -26,3 +26,8 @@
 5. Use 5. Sensitivity analysis.R to run two sensitivity analyses. 
 
 If you encounter any errors/problems reproducing the results, please send Jung Hyun an email.
+
+
+### Updates 
+Nov.11.2022, 3. Main estimtaion.R, 4. Subgroup analysis.R, 5. Sensitivity analysis.R 
+Categorical values to dummies with one-hot encoding, change in matching method from PS weight to CBPS weight.
