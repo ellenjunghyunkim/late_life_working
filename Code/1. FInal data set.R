@@ -34,7 +34,7 @@ setwd("~/Documents/CognitiveDecline")
 ## Download the KLoSA data & clean the variables & create final analytical sample
 ####################################################################################################
 # In this case, I located the KLoSA data file inside of the folder "CognitiveDecline".
-KLoSA <- read_dta("KLoSA_STATA_2022v3/d:KLoSA_data.dta")
+KLoSA <- read_dta("KLoSA_STATA_2022v3/KLoSA_data.dta")
 #extract "w" from every columns that contain it.
 names(KLoSA) <- gsub(x = names(KLoSA), pattern = "w", replacement = "")  
 #First column is ID and second is WAVE
