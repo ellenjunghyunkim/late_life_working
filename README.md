@@ -3,8 +3,9 @@
 - Study flow folder contains a study/data flow chart for an intuitive undersatnding.
 
 ## Data
-- The data used in this study are publicly available on the Health and Retirement Study website (http://hrsonline.isr.umich.edu/).
-- The Korean Longitudinal Study of Ageing is publicly available on the website (http://survey.keis.or.kr).
+- The RAND HRS Longitudinal File 2018 (V2) used in this study is publicly available on the Health and Retirement Study website (https://hrsdata.isr.umich.edu/data-products/rand-hrs-longitudinal-file-2018).
+- HRS 2020 Core Early Release (Version 2.0) is publicly available on the Health and Retirement Study website (https://hrsdata.isr.umich.edu/data-products/2020-hrs-core).
+- The Korean Longitudinal Study of Ageing is publicly available on the website (https://survey.keis.or.kr/eng/klosa/databoard/List.jsp) file N.21.
 - Inflation data are extracted from the World Bank website (https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG).
 - Purchasing power parity data are extracted from the World Bank website (https://data.worldbank.org/indicator/PA.NUS.PPP).
 
