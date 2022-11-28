@@ -802,9 +802,14 @@ mtext(text="Left : Korea, Right : US",side=1,line=1,outer=TRUE)
 ####################################################################################################
 ## Subgroup analysis
 ####################################################################################################
-HRS <- HRS %>% 
-  mutate(asset = ntile(HRS$inflation_asset, 2))
-HRS$asset_moderator <- HRS$asset
+firstobservation <- HRS  %>%
+  group_by(hhidpn) %>%
+  top_n(1, -wave)
+firstobservation <- firstobservation %>% 
+  mutate(asset_moderator = ntile(firstobservation$inflation_asset, 2))
+summary(firstobservation$inflation_asset)
+firstobservation <- subset(firstobservation, select = c("hhidpn", "asset_moderator"))
+HRS <- left_join(HRS, firstobservation)
 
 Working_HRS_Asset  <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn", 
                                  treatment = "working", refinement.method = "CBPS.weight", 
@@ -812,7 +817,6 @@ Working_HRS_Asset  <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn",
                                  covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
                                  + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
                                  + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
-                                 + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:3))
                                  + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                  + nonhispblack + other + hispanic + foreignbirth,
                                  size.match = 5, qoi = "att", outcome.var = "cogtot27",
@@ -825,7 +829,6 @@ NotWorking_HRS_Asset  <- PanelMatch(lag = 2, time.id = "wave", unit.id = "hhidpn
                                     covs.formula = ~ female + age + I(age^2) + agecohort + edu2 + edu3 + edu4 
                                     + I(lag(health2, 1:2))+ I(lag(health3, 1:2))+ I(lag(health4, 1:2))+ I(lag(health5, 1:2))
                                     + I(lag(job.locfcategory2, 1:2))+ I(lag(job.locfcategory3, 1:2))
-                                    + I(lag(asset_quantile2, 1:2)) + I(lag(asset_quantile3, 1:3))
                                     + I(lag(income_quantile2, 1:3))+ I(lag(income_quantile3, 1:3)) + I(lag(cogtot27, 1:3))
                                     + nonhispblack + other + hispanic + foreignbirth,
                                     size.match = 5, qoi = "att", outcome.var = "cogtot27",
