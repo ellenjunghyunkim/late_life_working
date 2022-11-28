@@ -33,3 +33,6 @@ If you encounter any errors/problems reproducing the results, please send Jung H
 Nov.11.2022, 
 - Files: 3. Main estimtaion.R, 4. Subgroup analysis.R, 5. Sensitivity analysis.R 
 - Categorical values to dummies with one-hot encoding, change in matching method from PS weight to CBPS weight.
+Nov.28.2022
+- File: 4. Subgroup analysis
+- Change the asset measurement from current to baseline.
