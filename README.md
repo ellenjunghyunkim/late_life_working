@@ -1,4 +1,5 @@
 # Description of this data
+[![DOI](https://zenodo.org/badge/563442711.svg)](https://zenodo.org/badge/latestdoi/563442711)
 - The codes and data are for the paper Does (Re-)Entering the Labor Market at Advanced Ages Protect Against Cognitive Decline? A Panel-Matching Difference-in-Differences Approach, Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022).
 - Study flow folder contains a study/data flow chart for an intuitive undersatnding.
 
