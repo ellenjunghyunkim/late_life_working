@@ -1,7 +1,7 @@
 # Description of this data
 [![DOI](https://zenodo.org/badge/563442711.svg)](https://zenodo.org/badge/latestdoi/563442711)
-- The codes and data are for the paper Does (Re-)Entering the Labor Market at Advanced Ages Protect Against Cognitive Decline? A Panel-Matching Difference-in-Differences Approach, Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022).
-- Study flow folder contains a study/data flow chart for an intuitive undersatnding.
+- The codes and data are for the paper [Does (re-)entering the labour market at advanced ages protect against cognitive decline? A matching difference-in-differences approach (2023), Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022)](https://jech.bmj.com/content/early/2023/07/17/jech-2022-220197).
+- Study flow folder contains a study/data flow chart for an intuitive understanding.
 
 ## Data
 - The RAND HRS Longitudinal File 2018 (V2) used in this study is publicly available on the Health and Retirement Study website (https://hrsdata.isr.umich.edu/data-products/rand-hrs-longitudinal-file-2018).
@@ -21,7 +21,7 @@
 3. Download inflation data (API_FP.CPI.TOTL.ZG_DS2_en_excel_v2_4692956.xls) and PPP data (API_PA.NUS.PPP_DS2_en_excel_v2_4684852.xls).
 
 ## Main Estimation code (in R)
-1. Use 1. FInal data set.R to get the final analytical samples for KLoSA and HRS.
+1. Use 1. Final data set.R to get the final analytical samples for KLoSA and HRS.
 2. Use 2. Descriptive statistics.R to generate the descriptive statistics. (Refer to the study flow chart.)
 3. Use 3. Main estimtaion.R to replicate and plot main results.
 4. Use 4. Subgroup analysis.R to run subgroup analysis. 
