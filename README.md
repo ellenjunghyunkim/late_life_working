@@ -1,6 +1,6 @@
 # Description of this data
 [![DOI](https://zenodo.org/badge/563442711.svg)](https://zenodo.org/badge/latestdoi/563442711)
-- The codes and data are for the paper [Does (re-)entering the labour market at advanced ages protect against cognitive decline? A matching difference-in-differences approach (2023), Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022)](https://jech.bmj.com/content/early/2023/07/17/jech-2022-220197).
+- The codes and data are for the paper [Does (re-)entering the labour market at advanced ages protect against cognitive decline? A matching difference-in-differences approach (2023)] by Kim, Jung Hyun and Muniz-Terrera, Graciela and Leist, Anja (2022)(https://jech.bmj.com/content/early/2023/07/17/jech-2022-220197).
 - Study flow folder contains a study/data flow chart for an intuitive understanding.
 
 ## Data
